@@ -42,3 +42,45 @@ body {
   background-color: #fff;
   border: 2px solid #000;
 }
+
+/* STYLES FOR THE GAME PLAY BUTTONS */
+
+.attack-btn {
+  appearance: none;
+  background-color: #ffffff;
+  border-radius: 3px;
+  border: 2px solid rgb(17, 42, 97);
+  box-shadow: rgb(55, 89, 163) 0 -12px 6px inset;
+  box-sizing: border-box;
+  color: #000000;
+  cursor: pointer;
+  display: inline-block;
+  margin: 0;
+  outline: none;
+  quotes: auto;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.attack-btn:hover {
+  background-color: rgb(21, 21, 83);
+  box-shadow: #ff6314 0 -6px 8px inset;
+  transform: scale(1.06);
+}
+
+.attack-btn:active {
+  transform: scale(1.025);
+  background-color: rgb(145, 0, 0);
+}
+
+/* STYLES TO SHOWCASE HIT OR MISS  */
+
+.attack-hit {
+  background-color: red;
+  transform: scale(0.9);
+  transition: background-color 0.5s ease, transform 0.3s ease;
+}
