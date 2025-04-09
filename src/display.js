@@ -45,4 +45,25 @@ export function initiateGame() {
       }
     });
   });
+
+  const shipsToPlace = document.querySelector(".ship-container");
+
+  const shipsToDeploy = [
+    ["Aircraft Carrier", 5],
+    ["Assault Ship", 4],
+    ["Cruiser", 4],
+    ["Destroyer", 3],
+    ["Frigate", 2],
+  ];
+
+  for (const [name, length] of shipsToDeploy) {
+    const ship = document.createElement("div");
+    ship.dataset.length = length;
+
+    //changing the name so that it can be added as a class
+    const className = name.toLowerCase().replace(/\s+/g, "-");
+    ship.textContent = name;
+    ship.classList.add(className);
+    shipsToPlace.appendChild(ship);
+  }
 }

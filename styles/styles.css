@@ -1,84 +1,158 @@
-* {
+/* RESET STYLES */
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* GLOBAL VARIABLES */
+:root {
+  --primary-color: rgb(17, 42, 97); /* primary color */
+  --secondary-color: rgb(21, 21, 83); /* secondary hover color */
+  --highlight-color: #ff6314; /* highlight color */
+  --error-color: rgb(145, 0, 0); /* error (for hit state) */
+  --grid-size: 400px; /* grid size */
+  --cell-size: 36px; /* smaller cell size */
+  --border-radius: 5px; /* border radius for buttons */
+  --transition-time: 0.3s; /* transition timing */
+  --shadow-color: rgb(55, 89, 163); /* shadow color */
+  /* ships lengths */
+  --ship-length-aircraft-carrier: 5;
+  --ship-length-assault-ship: 4;
+  --ship-length-cruiser: 4;
+  --ship-length-destroyer: 3;
+  --ship-length-frigate: 2;
+}
+
+/* BODY STYLES */
 body {
   height: 100vh;
-  width: auto;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-
   background-color: antiquewhite;
+  font-family: Arial, sans-serif;
+  color: #000;
 }
 
-/* STYLES FOR MAIN GAME OPERATIONS */
+/* GAME CONTAINER */
 .game-container {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   padding: 2rem;
-  width: 100vw;
+  width: 100%;
+  gap: 2rem;
 }
 
+/* GRID STYLES */
 .player-grid,
 .computer-grid {
-  width: 500px;
-  height: 500px;
+  width: var(--grid-size);
+  height: var(--grid-size);
   display: grid;
-  grid-template-columns: repeat(10, 48px);
-  grid-template-rows: repeat(10, 48px);
+  grid-template-columns: repeat(10, var(--cell-size));
+  grid-template-rows: repeat(10, var(--cell-size));
   gap: 2px;
   border: 1px solid #000;
+  justify-content: center;
+  align-content: center;
 }
 
+/* CELL STYLES */
 .player-cell-div,
 .computer-cell-div {
-  width: 46px;
-  height: 46px;
-  margin: 1%;
+  width: var(--cell-size);
+  height: var(--cell-size);
   background-color: #fff;
   border: 2px solid #000;
+  cursor: pointer;
+  transition: transform var(--transition-time) ease-in-out;
 }
 
-/* STYLES FOR THE GAME PLAY BUTTONS */
-
+/* BUTTON STYLES */
 .attack-btn {
   appearance: none;
-  background-color: #ffffff;
-  border-radius: 3px;
-  border: 2px solid rgb(17, 42, 97);
-  box-shadow: rgb(55, 89, 163) 0 -12px 6px inset;
-  box-sizing: border-box;
-  color: #000000;
+  background-color: #fff;
+  border-radius: var(--border-radius);
+  border: 2px solid var(--primary-color);
+  box-shadow: var(--shadow-color) 0 -12px 6px inset;
+  color: #000;
   cursor: pointer;
   display: inline-block;
   margin: 0;
   outline: none;
-  quotes: auto;
   text-align: center;
   text-decoration: none;
-  transition: all 0.15s;
+  transition: all var(--transition-time);
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
 }
 
 .attack-btn:hover {
-  background-color: rgb(21, 21, 83);
-  box-shadow: #ff6314 0 -6px 8px inset;
+  background-color: var(--secondary-color);
+  box-shadow: var(--highlight-color) 0 -6px 8px inset;
   transform: scale(1.06);
 }
 
 .attack-btn:active {
   transform: scale(1.025);
-  background-color: rgb(145, 0, 0);
+  background-color: var(--error-color);
 }
 
-/* STYLES TO SHOWCASE HIT OR MISS  */
+/* SHIPS TO DEPLOY STYLES */
+.ship-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 100px;
+  background-color: #fff;
+  border: var(--border-radius) solid var(--error-color);
+  margin: 1rem 0 3rem 0;
+}
 
+/* STYLES FOR SPECIFIC SHIPS */
+.aircraft-carrier {
+  width: calc(var(--cell-size) * var(--ship-length-aircraft-carrier) + 2px * (var(--ship-length-aircraft-carrier) - 1));
+}
+
+.assault-ship {
+  width: calc(var(--cell-size) * var(--ship-length-assault-ship) + 2px * (var(--ship-length-assault-ship) - 1));
+}
+
+.cruiser {
+  width: calc(var(--cell-size) * var(--ship-length-cruiser) + 2px * (var(--ship-length-cruiser) - 1));
+}
+
+.destroyer {
+  width: calc(var(--cell-size) * var(--ship-length-destroyer) + 2px * (var(--ship-length-destroyer) - 1));
+}
+
+.frigate {
+  width: calc(var(--cell-size) * var(--ship-length-frigate) + 2px * (var(--ship-length-frigate) - 1));
+}
+
+.ship-container div {
+  height: var(--cell-size);
+  background-color: var(--primary-color);
+  border-radius: var(--border-radius);
+  margin-bottom: 0.5rem;
+  color: white;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: grab;
+  user-select: none;
+}
+
+/* HIT/MISS STYLES */
 .attack-hit {
   background-color: red;
   transform: scale(0.9);

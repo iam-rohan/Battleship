@@ -9,4 +9,12 @@ export class Player {
   attackOn(x, y) {
     this.board.receiveAttack(x, y);
   }
+
+  placeShip(x, y, length) {
+    this.board.assignShip(x, y, length);
+  }
+
+  hasLost() {
+    this.board.isGameOver();
+  }
 }
