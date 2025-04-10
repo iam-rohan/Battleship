@@ -1,10 +1,16 @@
 import { Player } from "./player.js";
+import { Ship } from "./ship.js";
 
 export function initiateGame() {
+  function restart() {
+    // Reload the page to reset the game state
+    window.location.reload();
+  }
+
   const humanPlayer = new Player("human");
   const computerPlayer = new Player("computer");
-  const playerGrid = document.querySelector(".player-grid");
 
+  const playerGrid = document.querySelector(".player-grid");
   const computerGrid = document.querySelector(".computer-grid");
 
   for (let i = 0; i < 10; i++) {
@@ -17,13 +23,13 @@ export function initiateGame() {
 
       let computerCellButton = document.createElement("button");
       computerCellButton.classList.add("computer-cell-button", "attack-btn", "btn");
-      computerCellButton.dataset.yCord = i;
-      computerCellButton.dataset.xCord = j;
+      computerCellButton.dataset.xCord = i;
+      computerCellButton.dataset.yCord = j;
       computerGrid.appendChild(computerCellButton);
     }
   }
 
-  // To handle all the button clicks
+  // To handle all the attack clicks
 
   const buttons = document.querySelectorAll(".attack-btn");
 
@@ -47,8 +53,23 @@ export function initiateGame() {
       }
 
       if (target.classList.contains("computer-cell-button")) {
-        console.log("computer [" + xCord + " , " + yCord + "]");
-        computerPlayer.attackOn(xCord, yCord);
+        let hitOrMiss = computerPlayer.attackOn(xCord, yCord);
+
+        if (hitOrMiss === "Hit") {
+          button.classList.add("attack-hit");
+          button.disabled = true;
+        } else if (hitOrMiss === "Miss") {
+          button.classList.add("attack-miss");
+          button.disabled = true;
+        }
+      }
+
+      if (humanPlayer.hasLost()) {
+        document.getElementById("gameOverTextHuman").style.display = "block";
+        disableGrids();
+      } else if (computerPlayer.hasLost()) {
+        document.getElementById("gameOverTextComputer").style.display = "block";
+        disableGrids();
       }
     });
   });
@@ -84,6 +105,8 @@ export function initiateGame() {
 
       if (target.textContent == "Random Placement") {
         randomPlacement();
+      } else if (target.textContent == "Restart") {
+        restart();
       }
     });
   });
@@ -96,6 +119,15 @@ export function initiateGame() {
 
     console.log(humanPlayer.board);
     console.log(computerPlayer.board);
+
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        if (humanPlayer.board.board[i][j] instanceof Ship) {
+          const button = document.querySelector(`.player-cell-button[data-x-cord="${i}"][data-y-cord="${j}"]`);
+          if (button) button.classList.add("ship-placed-cell");
+        }
+      }
+    }
   }
 
   function getRandomNumber(min, max) {
@@ -109,5 +141,33 @@ export function initiateGame() {
     } else {
       return "vertical";
     }
+  }
+
+  function disableGrids() {
+    const playerGrid = document.querySelector(".player-grid");
+    const computerGrid = document.querySelector(".computer-grid");
+
+    playerGrid.classList.add("grid-disabled");
+    computerGrid.classList.add("grid-disabled");
+
+    // For smoothing the visuals
+    setTimeout(() => {
+      playerGrid.classList.remove("grid-enabled");
+      computerGrid.classList.remove("grid-enabled");
+    }, 500);
+  }
+
+  function enableGrids() {
+    const playerGrid = document.querySelector(".player-grid");
+    const computerGrid = document.querySelector(".computer-grid");
+
+    playerGrid.classList.add("grid-enabled");
+    computerGrid.classList.add("grid-enabled");
+
+    // For smoothing the visuals
+    setTimeout(() => {
+      playerGrid.classList.remove("grid-disabled");
+      computerGrid.classList.remove("grid-disabled");
+    }, 500);
   }
 }

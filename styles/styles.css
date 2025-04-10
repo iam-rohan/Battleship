@@ -69,17 +69,6 @@ main {
   align-content: center;
 }
 
-/* CELL STYLES */
-.player-cell-div,
-.computer-cell-div {
-  width: var(--cell-size);
-  height: var(--cell-size);
-  background-color: #fff;
-  border: 2px solid #000;
-  cursor: pointer;
-  transition: transform var(--transition-time) ease-in-out;
-}
-
 /* STATE BUTTONS ALIGNMENT */
 .state-buttons {
   display: flex;
@@ -164,6 +153,10 @@ main {
   background-color: var(--error-color);
 }
 
+.ship-placed-cell {
+  background-color: #000;
+}
+
 .attack-btn:disabled {
   pointer-events: none;
   opacity: 0.6;
@@ -232,4 +225,48 @@ main {
   background-color: aqua;
   transform: scale(0.9);
   transition: background-color 0.5s ease, transform 0.3s ease;
+}
+
+/* GAMEOVER STYLE */
+
+.game-over-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(17, 42, 97, 0.95); /* primary with opacity */
+  padding: 2rem 4rem;
+  border-radius: 10px;
+  box-shadow: 0 0 20px var(--shadow-color);
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #fff;
+  z-index: 999;
+  text-align: center;
+  pointer-events: none; /* makes it unclickable */
+  animation: fadeInZoom 0.6s ease forwards;
+}
+
+@keyframes fadeInZoom {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* TOGGLE GRID STYLES */
+
+.grid-disabled {
+  pointer-events: none;
+  opacity: 0.6;
+  transition: opacity 0.5s ease-out;
+}
+
+.grid-enabled {
+  opacity: 1;
+  transition: opacity 0.5s ease-in;
 }

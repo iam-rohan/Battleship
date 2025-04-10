@@ -15,6 +15,6 @@ export class Player {
   }
 
   hasLost() {
-    this.board.isGameOver();
+    return this.board.isGameOver();
   }
 }
