@@ -35,8 +35,15 @@ export function initiateGame() {
       const yCord = e.target.dataset.yCord;
 
       if (target.classList.contains("player-cell-button")) {
-        console.log("player [" + xCord + " , " + yCord + "]");
-        humanPlayer.attackOn(xCord, yCord);
+        let hitOrMiss = humanPlayer.attackOn(xCord, yCord);
+
+        if (hitOrMiss === "Hit") {
+          button.classList.add("attack-hit");
+          button.disabled = true;
+        } else if (hitOrMiss === "Miss") {
+          button.classList.add("attack-miss");
+          button.disabled = true;
+        }
       }
 
       if (target.classList.contains("computer-cell-button")) {

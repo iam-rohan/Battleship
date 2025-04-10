@@ -7,7 +7,7 @@ export class Player {
   }
 
   attackOn(x, y) {
-    this.board.receiveAttack(x, y);
+    return this.board.receiveAttack(x, y);
   }
 
   placeShip(x, y, length) {

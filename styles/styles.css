@@ -103,6 +103,14 @@ body {
   background-color: var(--error-color);
 }
 
+.attack-btn:disabled {
+  pointer-events: none;
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
 /* SHIPS TO DEPLOY STYLES */
 .ship-container {
   display: flex;
@@ -155,6 +163,12 @@ body {
 /* HIT/MISS STYLES */
 .attack-hit {
   background-color: red;
+  transform: scale(0.9);
+  transition: background-color 0.5s ease, transform 0.3s ease;
+}
+
+.attack-miss {
+  background-color: aqua;
   transform: scale(0.9);
   transition: background-color 0.5s ease, transform 0.3s ease;
 }
