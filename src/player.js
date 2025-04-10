@@ -11,7 +11,7 @@ export class Player {
   }
 
   placeShip(x, y, length) {
-    this.board.assignShip(x, y, length);
+    return this.board.assignShip(x, y, length);
   }
 
   hasLost() {

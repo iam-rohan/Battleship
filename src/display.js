@@ -73,4 +73,32 @@ export function initiateGame() {
     ship.classList.add(className);
     shipsToPlace.appendChild(ship);
   }
+
+  const stateButtonsDiv = document.querySelector(".state-buttons");
+
+  const stateButtons = stateButtonsDiv.querySelectorAll("button");
+
+  stateButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const target = e.target;
+
+      if (target.textContent == "Random Placement") {
+        randomPlacement();
+      }
+    });
+  });
+
+  function randomPlacement() {
+    shipsToDeploy.forEach((ship) => {
+      humanPlayer.placeShip(getRandomNumber(0, 9), getRandomNumber(0, 9), ship[1]);
+      computerPlayer.placeShip(getRandomNumber(0, 9), getRandomNumber(0, 9), ship[1]);
+    });
+
+    console.log(humanPlayer.board);
+    console.log(computerPlayer.board);
+  }
+
+  function getRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+  }
 }
