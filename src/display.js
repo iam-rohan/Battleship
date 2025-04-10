@@ -90,8 +90,8 @@ export function initiateGame() {
 
   function randomPlacement() {
     shipsToDeploy.forEach((ship) => {
-      humanPlayer.placeShip(getRandomNumber(0, 9), getRandomNumber(0, 9), ship[1]);
-      computerPlayer.placeShip(getRandomNumber(0, 9), getRandomNumber(0, 9), ship[1]);
+      humanPlayer.placeShip(getRandomNumber(0, 9), getRandomNumber(0, 9), ship[1], getRandomDirection());
+      computerPlayer.placeShip(getRandomNumber(0, 9), getRandomNumber(0, 9), ship[1], getRandomDirection());
     });
 
     console.log(humanPlayer.board);
@@ -100,5 +100,14 @@ export function initiateGame() {
 
   function getRandomNumber(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
+  }
+
+  function getRandomDirection() {
+    const toCheck = getRandomNumber(0, 1);
+    if (toCheck == 0) {
+      return "horizontal";
+    } else {
+      return "vertical";
+    }
   }
 }

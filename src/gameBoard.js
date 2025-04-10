@@ -19,32 +19,62 @@ export class Gameboard {
     return board;
   }
 
-  assignShip(x, y, length) {
+  assignShip(x, y, length, direction) {
     if (length > 10) {
       throw new Error("Ship's length exceeds board size.");
     }
 
-    // Adjusting y if ship would go out of bounds
-    if (y + length > 10) {
-      y = 10 - length; // shifting left so the ship fits
+    // Helper function to check if we can place ship starting at (i, j)
+    const isValidPosition = (i, j) => {
+      if (direction === "horizontal") {
+        if (j + length > 10) return false;
+        for (let k = 0; k < length; k++) {
+          if (this.board[i][j + k] !== -1) return false;
+        }
+      } else {
+        if (i + length > 10) return false;
+        for (let k = 0; k < length; k++) {
+          if (this.board[i + k][j] !== -1) return false;
+        }
+      }
+      return true;
+    };
+
+    // Helper function to place the ship
+    const placeShip = (i, j, ship) => {
+      if (direction === "horizontal") {
+        for (let k = 0; k < length; k++) {
+          this.board[i][j + k] = ship;
+        }
+      } else {
+        for (let k = 0; k < length; k++) {
+          this.board[i + k][j] = ship;
+        }
+      }
+    };
+
+    // Try the original position first
+    if (isValidPosition(x, y)) {
+      const ship = new Ship(length);
+      this.ships.push(ship);
+      placeShip(x, y, ship);
+      return true;
     }
 
-    // Check for overlap
-    for (let i = y; i < y + length; i++) {
-      if (this.board[x][i] !== -1) {
-        return false;
+    // Else scan the board for the first valid empty spot
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        if (isValidPosition(i, j)) {
+          const ship = new Ship(length);
+          this.ships.push(ship);
+          placeShip(i, j, ship);
+          return true;
+        }
       }
     }
 
-    const ship = new Ship(length);
-    this.ships.push(ship);
-
-    // Assign the same ship reference to all cells
-    for (let i = y; i < y + length; i++) {
-      this.board[x][i] = ship;
-    }
-
-    return true;
+    // No valid space found
+    return false;
   }
 
   receiveAttack(x, y) {
