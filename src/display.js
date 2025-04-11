@@ -2,6 +2,9 @@ import { Player } from "./player.js";
 import { Ship } from "./ship.js";
 
 export function initiateGame() {
+  // To make sure there are ships on the board when Game starts
+  let shipPlaced = false;
+
   function restart() {
     // Reload the page to reset the game state
     window.location.reload();
@@ -74,6 +77,17 @@ export function initiateGame() {
     });
   });
 
+  disableGrids();
+
+  // Turn by turn Attack
+  function startGame() {
+    enableGrids();
+    disableRandomPlacement();
+    // while(!humanPlayer.hasLost() && !computerPlayer.hasLost()) {
+
+    // }
+  }
+
   const shipsToPlace = document.querySelector(".ship-container");
 
   const shipsToDeploy = [
@@ -107,11 +121,18 @@ export function initiateGame() {
         randomPlacement();
       } else if (target.textContent == "Restart") {
         restart();
+      } else if (target.textContent == "Start") {
+        if (!shipPlaced) {
+          alert("No Ships on the bay! Tip: Click Random Placement.");
+          return;
+        }
+        startGame();
       }
     });
   });
 
   function randomPlacement() {
+    revertPreviousShips();
     shipsToDeploy.forEach((ship) => {
       humanPlayer.placeShip(getRandomNumber(0, 9), getRandomNumber(0, 9), ship[1], getRandomDirection());
       computerPlayer.placeShip(getRandomNumber(0, 9), getRandomNumber(0, 9), ship[1], getRandomDirection());
@@ -128,6 +149,27 @@ export function initiateGame() {
         }
       }
     }
+
+    shipPlaced = true;
+  }
+
+  function revertPreviousShips() {
+    humanPlayer.board.resetBoard();
+    computerPlayer.board.resetBoard();
+
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        const playerButton = document.querySelector(`.player-cell-button[data-x-cord="${i}"][data-y-cord="${j}"]`);
+        const computerButton = document.querySelector(`.computer-cell-button[data-x-cord="${i}"][data-y-cord="${j}"]`);
+
+        if (playerButton) {
+          playerButton.classList.remove("ship-placed-cell");
+        }
+        if (computerButton) {
+          computerButton.classList.remove("ship-placed-cell");
+        }
+      }
+    }
   }
 
   function getRandomNumber(min, max) {
@@ -135,7 +177,7 @@ export function initiateGame() {
   }
 
   function getRandomDirection() {
-    const toCheck = getRandomNumber(0, 1);
+    const toCheck = getRandomNumber(0, 2);
     if (toCheck == 0) {
       return "horizontal";
     } else {
@@ -168,6 +210,14 @@ export function initiateGame() {
     setTimeout(() => {
       playerGrid.classList.remove("grid-disabled");
       computerGrid.classList.remove("grid-disabled");
+    }, 500);
+  }
+
+  function disableRandomPlacement() {
+    const randomButton = document.querySelector(".random-btn");
+
+    setTimeout(() => {
+      randomButton.classList.add("random-btn-disable");
     }, 500);
   }
 }

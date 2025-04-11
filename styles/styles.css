@@ -157,12 +157,23 @@ main {
   background-color: #000;
 }
 
+.player-cell-button {
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
 .attack-btn:disabled {
   pointer-events: none;
   opacity: 0.6;
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
+}
+
+.random-btn-disable {
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity 0.5s ease-out;
 }
 
 /* SHIPS TO DEPLOY STYLES */

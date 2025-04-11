@@ -19,6 +19,11 @@ export class Gameboard {
     return board;
   }
 
+  resetBoard() {
+    this.board = Array.from({ length: 10 }, () => Array(10).fill(-1));
+    this.ships = [];
+  }
+
   assignShip(x, y, length, direction) {
     if (length > 10) {
       throw new Error("Ship's length exceeds board size.");
