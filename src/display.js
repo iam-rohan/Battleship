@@ -32,60 +32,76 @@ export function initiateGame() {
     }
   }
 
-  // To handle all the attack clicks
+  // ——— TURN‑BY‑TURN ATTACK SETUP ———
+  let currentTurn = "human";
 
-  const buttons = document.querySelectorAll(".attack-btn");
+  const computerGridCells = document.querySelectorAll(".computer-cell-button");
+  computerGridCells.forEach((cell) => {
+    cell.addEventListener("click", (e) => {
+      if (currentTurn !== "human") return;
 
-  buttons.forEach((button) => {
-    button.addEventListener("click", (e) => {
       const target = e.target;
+      const xCord = parseInt(target.dataset.xCord, 10);
+      const yCord = parseInt(target.dataset.yCord, 10);
 
-      const xCord = e.target.dataset.xCord;
-      const yCord = e.target.dataset.yCord;
+      const result = computerPlayer.attackOn(xCord, yCord);
+      markCell(target, result);
 
-      if (target.classList.contains("player-cell-button")) {
-        let hitOrMiss = humanPlayer.attackOn(xCord, yCord);
-
-        if (hitOrMiss === "Hit") {
-          button.classList.add("attack-hit");
-          button.disabled = true;
-        } else if (hitOrMiss === "Miss") {
-          button.classList.add("attack-miss");
-          button.disabled = true;
-        }
-      }
-
-      if (target.classList.contains("computer-cell-button")) {
-        let hitOrMiss = computerPlayer.attackOn(xCord, yCord);
-
-        if (hitOrMiss === "Hit") {
-          button.classList.add("attack-hit");
-          button.disabled = true;
-        } else if (hitOrMiss === "Miss") {
-          button.classList.add("attack-miss");
-          button.disabled = true;
-        }
-      }
-
-      if (humanPlayer.hasLost()) {
-        document.getElementById("gameOverTextHuman").style.display = "block";
+      if (computerPlayer.hasLost()) {
+        document.getElementById("gameOverTextWin").style.display = "block";
         disableGrids();
-      } else if (computerPlayer.hasLost()) {
-        document.getElementById("gameOverTextComputer").style.display = "block";
-        disableGrids();
+        return;
       }
+
+      currentTurn = "computer";
+      computerTurn();
     });
   });
+
+  // Common helper to style & disable a cell after attack
+  function markCell(button, result) {
+    button.classList.add(result === "Hit" ? "attack-hit" : "attack-miss");
+    button.disabled = true;
+  }
+
+  // Computer’s automated turn
+  function computerTurn() {
+    if (humanPlayer.hasLost()) return;
+
+    setTimeout(() => {
+      let xCord, yCord, button;
+
+      do {
+        xCord = getRandomNumber(0, 10);
+        yCord = getRandomNumber(0, 10);
+        button = document.querySelector(`.player-cell-button[data-x-cord="${xCord}"][data-y-cord="${yCord}"]`);
+      } while (button.disabled);
+
+      const result = humanPlayer.attackOn(xCord, yCord);
+      markCell(button, result);
+
+      if (humanPlayer.hasLost()) {
+        document.getElementById("gameOverTextLose").style.display = "block";
+        disableGrids();
+        return;
+      }
+
+      currentTurn = "human";
+    }, 500);
+  }
 
   disableGrids();
 
   // Turn by turn Attack
   function startGame() {
+    const startButton = document.querySelector(".start-btn");
+
+    setTimeout(() => {
+      startButton.classList.add("start-btn-disable");
+    }, 500);
+
     enableGrids();
     disableRandomPlacement();
-    // while(!humanPlayer.hasLost() && !computerPlayer.hasLost()) {
-
-    // }
   }
 
   const shipsToPlace = document.querySelector(".ship-container");

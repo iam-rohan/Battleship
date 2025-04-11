@@ -122,6 +122,21 @@ main {
   transform: translateY(2px);
 }
 
+/* GRID CONTAINER STYLES */
+
+.player-grid-container,
+.computer-grid-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.grid-description {
+  font-weight: bold;
+}
+
 /* CELL STYLES */
 .attack-btn {
   appearance: none;
@@ -170,7 +185,8 @@ main {
   transform: none;
 }
 
-.random-btn-disable {
+.random-btn-disable,
+.start-btn-disable {
   opacity: 0.6;
   pointer-events: none;
   transition: opacity 0.5s ease-out;

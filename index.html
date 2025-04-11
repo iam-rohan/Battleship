@@ -19,12 +19,18 @@
       </div>
 
       <div class="game-container">
-        <div class="player-grid"></div>
+        <div class="player-grid-container">
+          <div class="player-grid"></div>
+          <p class="grid-description">That's Your Bay. Hope non get Hits!</p>
+        </div>
 
-        <div class="game-over-text" id="gameOverTextComputer" style="display: none">Game Over! You Have Won.</div>
-        <div class="game-over-text" id="gameOverTextHuman" style="display: none">Game Over! Computer Has Won.</div>
+        <div class="game-over-text" id="gameOverTextWin" style="display: none">Game Over! You Have Won.</div>
+        <div class="game-over-text" id="gameOverTextLose" style="display: none">Game Over! Computer Has Won.</div>
 
-        <div class="computer-grid"></div>
+        <div class="computer-grid-container">
+          <div class="computer-grid"></div>
+          <p class="grid-description">That's the Enemy's Bay. Sink them All!</p>
+        </div>
       </div>
       <div class="ship-container"></div>
     </main>
