@@ -226,6 +226,7 @@ main {
 }
 
 .ship-container div {
+  position: relative;
   height: var(--cell-size);
   background-color: var(--primary-color);
   border-radius: var(--border-radius);
@@ -239,6 +240,29 @@ main {
   text-align: center;
   cursor: grab;
   user-select: none;
+}
+
+.invalid-placement {
+  animation: shake 0.3s ease-in-out;
+  border: 2px solid red;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(2px, 0);
+  }
+  50% {
+    transform: translate(-2px, 0);
+  }
+  75% {
+    transform: translate(2px, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 /* HIT/MISS STYLES */
